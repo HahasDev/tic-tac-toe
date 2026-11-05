@@ -1,5 +1,4 @@
 /*-------------------------------- Constants --------------------------------*/
-const ticTacToe = [[0, 1, 2], [3 , 4, 5], [6 , 7, 8]]
 const playerX = [false,false ,false , false ,false , false, false, false,false]
 const playerO = [false,false ,false , false ,false , false, false, false,false]
 const winningCombos = [
@@ -16,49 +15,42 @@ const winningCombos = [
 
 /*---------------------------- Variables (state) ----------------------------*/
 let xTurn = true
-let totalColumn = 0
-let totalRow = 0
-let column = 0
-let row = 0
 let roundNumber = 0
-let totalIndex = 0
 let arrayIndex = 0
 
 let oWon = false
 let xWon = false
 /*------------------------ Cached Element References ------------------------*/
 const boardSqrEls = document.querySelectorAll('.sqr')
-
+const messageEl = document.querySelector('#message')
+const resetEl = document.querySelector('#reset')
 
 
 /*-------------------------------- Functions --------------------------------*/
+const handleReset = () =>
+{
+    console.log('reset');
 
-// let indexToArray = (id , player) => {
-// for ( let index = 0; index < id; index++) {
-// column++ 
-    
-//     if (column === 3 )
-//     {
-//         row++
-//         column = 0
-//     }
+    playerX.splice(0, 9,false,false ,false , false ,false , false, false, false,false)
+    playerO.splice(0, 9,false,false ,false , false ,false , false, false, false,false)
+    console.log(playerO);
+    console.log(playerX);
+    xTurn = true
+    roundNumber = 0
+    arrayIndex = 0
 
-// }
-//         player[row][column] = true
-//         if (player[row][column] === true ) {
-//             console.log(player[row][column]);
-            
-//         }
-//         const result = player.filter((place) => place === true);
-//         console.log(result);
-//         CheckResults(player)
-//         row = 0
-//         column = 0
-//         console.log(player);
+    oWon = false
+    xWon = false
+
+    boardSqrEls.forEach((element, index) => {
+        boardSqrEls[index].textContent = ''
+    });
 
 
+    handleTurnMessage()
 
-// }
+
+}
 
 
 let whoWon = (id , player) => {
@@ -85,20 +77,26 @@ console.log(roundNumber);
     }
 }
 
-
-
 }
 
+function handleTurnMessage() {
+    messageEl.textContent = `It's now 'X' turn`
+}
+
+handleTurnMessage()
 
 boardSqrEls.forEach((element, index) => {
     element.addEventListener('click', ()=>{
         if (boardSqrEls[index].textContent !== '') return;
+     
+        
 
         
         if (xTurn) {
             boardSqrEls[index].textContent = 'X'
             arrayIndex = whoWon(boardSqrEls[index].id, playerX);
 
+             messageEl.textContent = `It's now 'O' turn`
             
             xTurn = false
         }
@@ -107,9 +105,22 @@ boardSqrEls.forEach((element, index) => {
             boardSqrEls[index].textContent = 'O'
             arrayIndex = whoWon(boardSqrEls[index].id, playerO);
 
+             messageEl.textContent = `It's now 'X' turn`
+
+
     
             xTurn = true
         }
+        if (xWon) {
+             messageEl.textContent = `Player X Have Won The Game!!!`
+            
+            return
+        }
+
+        if (oWon){
+             messageEl.textContent = `Player O Have Won The Game!!!`
+            return;
+        } 
 
 
     })
@@ -118,32 +129,11 @@ boardSqrEls.forEach((element, index) => {
 })
 
 
-let CheckResults = (player) => {
-
-    player.forEach((element,index)=> {
-        if (element[index] === true) {
-            console.log(element[index].index);
-
-            totalIndex += element[index].id
-            console.log(totalIndex);
-        }
-        
-    });
 
 
-    for (let index = 0; index < ticTacToe.length; index++) {
 
-        for (let id = 0; id < ticTacToe.length; id++) {
+   
 
-            
-
-            //  totalColumn =+ ticTacToe[row][column];
-            // console.log(totalColumn);
-            // totalColumn =+ ticTacToe[row][column]
-            
-        }
-        
-    }
-}
 
 /*----------------------------- Event Listeners -----------------------------*/
+resetEl.addEventListener('click', handleReset)
