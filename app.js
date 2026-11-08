@@ -57,8 +57,12 @@ let whoWon = (id , player) => {
 
 roundNumber += 1
 player[id] = true
-
 console.log(roundNumber);
+if (roundNumber === 9) {
+    messageEl.textContent = `It is a Tie`
+}
+
+
 
         if (roundNumber > 4) {
     
@@ -88,15 +92,20 @@ handleTurnMessage()
 boardSqrEls.forEach((element, index) => {
     element.addEventListener('click', ()=>{
         if (boardSqrEls[index].textContent !== '') return;
+        if (roundNumber === 9) return;
+            
+        
+        
      
         
 
-        
+       console.log(roundNumber); 
         if (xTurn) {
+            messageEl.textContent = `It's now 'O' turn`
+
             boardSqrEls[index].textContent = 'X'
             arrayIndex = whoWon(boardSqrEls[index].id, playerX);
 
-             messageEl.textContent = `It's now 'O' turn`
             
             xTurn = false
         }
